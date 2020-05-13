@@ -17,7 +17,6 @@ class AbstractGame(metaclass=ABCMeta):
         self.current_reward = 0
         self.state = None
 
-
     @abstractmethod
     def make_move(self, *args, **kwargs) -> bool:
         """ Function responsible for changing the state of the game
@@ -30,7 +29,6 @@ class AbstractGame(metaclass=ABCMeta):
 
 
 class GymGame(AbstractGame):
-
     def __init__(self, game_name: str = "MountainCar-v0") -> None:
         """
         Class serving as a common interface for all games included
