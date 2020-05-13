@@ -14,7 +14,9 @@ class AbstractGame(metaclass=ABCMeta):
     def __init__(self) -> None:
 
         self.current_result = 0
+        self.current_reward = 0
         self.state = None
+
 
     @abstractmethod
     def make_move(self, *args, **kwargs) -> bool:
@@ -25,3 +27,35 @@ class AbstractGame(metaclass=ABCMeta):
             Function retuns True if the move was completed and False otherwise.
         """
         pass
+
+
+class GymGame(AbstractGame):
+
+    def __init__(self, game_name: str = "MountainCar-v0") -> None:
+        """
+        Class serving as a common interface for all games included
+        in OpenAI's GYM library. For a complete list of games go to:
+        http://gym.openai.com/docs/
+
+        :param game_name: str - name of the chosen game environment to be loaded from
+            GYM library.
+        """
+
+        super(GymGame, self).__init__()
+        self.game_name = game_name
+        try:
+            self.env = gym.make(self.game_name)
+        except gym.error.Error:
+            print("Unknown game, try again!")
+
+    def display(self) -> None:
+        self.env.render()
+
+    def make_move(self, action, *args, **kwargs) -> bool:
+        self.state, self.current_reward, completed, _ = env.step(action)
+
+        return completed
+
+    def close(self) -> None:
+
+        self.env.close()
